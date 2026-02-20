@@ -1,0 +1,18 @@
+{
+  "source": {
+    "type": "room",
+    "name": "源群名称"
+  },
+  "target": {
+    "type": "room",
+    "name": "目标群名称"
+  },
+  "forwardText": true,
+  "forwardImage": true,
+  "forwardVideo": true,
+  "forwardAudio": true,
+  "forwardFile": true,
+  "forwardUrl": true,
+  "prefix": "",
+  "mentionAll": false
+}
