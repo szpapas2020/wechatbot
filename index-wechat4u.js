@@ -11,31 +11,10 @@ try {
   process.exit(1);
 }
 
-// 初始化机器人
-// 若出现 Navigation timeout：多为网络无法访问 wx.qq.com 或 Windows 下浏览器加载慢，
-// 可尝试 head: true 看是否加载；或使用 npm run start:adb（需 Android 设备）。
+// 初始化机器人 - 使用 wechat4u puppet
 const bot = WechatyBuilder.build({
-  name: 'wechat-forwarder-bot',
-  puppet: 'wechaty-puppet-wechat',
-  puppetOptions: {
-    uos: false,  // UOS 已于 2022 年停用，设为 false 避免异常
-    head: false, // 无头模式，不弹出浏览器窗口；登录二维码在终端显示
-    // 若出现加载失败，可临时改为 head: true 查看浏览器状态
-  },
-});
-
-// 扫码后页面跳转会导致「Execution context was destroyed」，puppet 内会重试，此处仅记录警告不退出
-// 这些 WARN/ERR 日志来自 puppet-bridge 内部的重试机制，属于正常现象，等待约 30 秒后会自动恢复
-bot.on('error', (e) => {
-  const msg = (e && (e.message || e.details)) ? String(e.message || e.details) : String(e || '');
-  if (msg.includes('Execution context was destroyed') ||
-      msg.includes('because of a navigation') ||
-      msg.includes('no WechatyBro') ||
-      msg.includes('getUserName() exception')) {
-    // 这些是登录过程中的正常错误，puppet 会自动重试
-    return;
-  }
-  console.error('❌ 机器人错误:', e);
+  name: 'wechat-forwarder-bot-wechat4u',
+  puppet: 'wechaty-puppet-wechat4u',
 });
 
 // 生成二维码登录
@@ -89,12 +68,15 @@ bot.on('message', async (msg) => {
 
     console.log(`📨 收到来自 [${roomTopic}] 的消息，来自: ${talker.name()}`);
 
-    // 查找目标群 - 使用 topic 而不是 name
+    // 查找目标群
     const targetRoom = await bot.Room.find({ topic: config.target.name });
     if (!targetRoom) {
       console.error(`❌ 未找到目标群: ${config.target.name}`);
       return;
     }
+
+    const targetRoomTopic = await targetRoom.topic();
+    console.log(`📤 准备转发到目标群 [${targetRoomTopic}]`);
 
     // 构建转发消息
     let forwardMessage = '';
@@ -181,7 +163,7 @@ bot.on('message', async (msg) => {
 // 启动机器人
 bot.start()
   .then(() => {
-    console.log('🤖 微信消息转发机器人已启动');
+    console.log('🤖 微信消息转发机器人已启动 (wechat4u 模式)');
     console.log(`📥 源群: ${config.source.name}`);
     console.log(`📤 目标群: ${config.target.name}`);
   })

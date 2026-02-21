@@ -94,7 +94,7 @@ bot.on('message', async (msg) => {
           const text = msg.text();
           forwardMessage += `[${talker.name()}]: ${text}`;
           await targetRoom.say(forwardMessage);
-          console.log(`✅ [文本] ${talker.name()}: ${text}`);
+          console.log(`✅ [文本] 已转发到 [${targetRoomTopic}] | ${talker.name()}: ${text}`);
         }
         break;
 
@@ -104,7 +104,7 @@ bot.on('message', async (msg) => {
           forwardMessage += `[${talker.name()}] 发送了一张图片`;
           await targetRoom.say(forwardMessage);
           await targetRoom.say(fileBox);
-          console.log(`✅ [图片] ${talker.name()} 发送了一张图片`);
+          console.log(`✅ [图片] 已转发到 [${targetRoomTopic}] | ${talker.name()} 发送了一张图片`);
         }
         break;
 
@@ -114,7 +114,7 @@ bot.on('message', async (msg) => {
           forwardMessage += `[${talker.name()}] 发送了一个视频`;
           await targetRoom.say(forwardMessage);
           await targetRoom.say(fileBox);
-          console.log(`✅ [视频] ${talker.name()} 发送了一个视频`);
+          console.log(`✅ [视频] 已转发到 [${targetRoomTopic}] | ${talker.name()} 发送了一个视频`);
         }
         break;
 
@@ -124,7 +124,7 @@ bot.on('message', async (msg) => {
           forwardMessage += `[${talker.name()}] 发送了一条语音`;
           await targetRoom.say(forwardMessage);
           await targetRoom.say(fileBox);
-          console.log(`✅ [语音] ${talker.name()} 发送了一条语音`);
+          console.log(`✅ [语音] 已转发到 [${targetRoomTopic}] | ${talker.name()} 发送了一条语音`);
         }
         break;
 
@@ -134,7 +134,7 @@ bot.on('message', async (msg) => {
           forwardMessage += `[${talker.name()}] 发送了一个文件: ${fileBox.name}`;
           await targetRoom.say(forwardMessage);
           await targetRoom.say(fileBox);
-          console.log(`✅ [文件] ${talker.name()} 发送了文件: ${fileBox.name}`);
+          console.log(`✅ [文件] 已转发到 [${targetRoomTopic}] | ${talker.name()} 发送了文件: ${fileBox.name}`);
         }
         break;
 
@@ -143,7 +143,7 @@ bot.on('message', async (msg) => {
           const urlLink = await msg.toUrlLink();
           forwardMessage += `[${talker.name()}] 分享了链接:\n${urlLink.url()}\n${urlLink.title()}`;
           await targetRoom.say(forwardMessage);
-          console.log(`✅ [链接] ${talker.name()} 分享了: ${urlLink.title()} - ${urlLink.url()}`);
+          console.log(`✅ [链接] 已转发到 [${targetRoomTopic}] | ${talker.name()} 分享了: ${urlLink.title()}`);
         }
         break;
 
